@@ -1,15 +1,32 @@
 {
   "name": "strava-mass",
   "version": "0.0.1",
-  "description": "strava mass editing",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "coffee app.coffee"
   },
   "author": "Brennan Neoh",
   "license": "ISC",
   "dependencies": {
+    "coffee-script": "^1.10.0",
+    "connect-coffee-script": "^0.2.1",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^2.0.0",
     "express": "^4.14.0",
-    "strava-v3": "^1.12.1"
+    "lodash": "^4.13.1",
+    "mkdirp": "^0.5.1",
+    "pug": "^2.0.0-beta3",
+    "simple-oauth2": "^0.7.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-express-server": "^0.5.3",
+    "grunt-webdriver": "^2.0.1",
+    "jasmine": "^2.4.1",
+    "jasmine-spec-reporter": "^2.5.0",
+    "nock": "^8.0.0",
+    "wdio-jasmine-framework": "^0.2.3",
+    "wdio-spec-reporter": "0.0.2",
+    "webdriverio": "^4.2.1"
   }
 }

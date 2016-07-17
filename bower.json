@@ -1,0 +1,28 @@
+{
+  "name": "strava-mass",
+  "description": "mass editing for strava",
+  "main": "",
+  "authors": [
+    "Brennan Neoh"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "editablegrid": "webismymind/editablegrid",
+    "knockout": "^3.4.0",
+    "lodash": "^4.13.1",
+    "js-cookie": "^2.1.2",
+    "db.js": "^0.15.0",
+    "moment": "^2.14.1",
+    "polyline": "^0.2.0",
+    "skeleton": "^2.0.4"
+  }
+}
