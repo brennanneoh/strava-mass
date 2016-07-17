@@ -12,10 +12,6 @@ A mass editing tool for strava built with NodeJS
 
 1. `npm install`
 2. `bower install`
-3. Create a `.env` file with the following
-   ```
-   STRAVA_ACCESS_TOKEN=<oauth access token>
-   STRAVA_CLIENT_ID=<oauth client id>
-   STRAVA_CLIENT_SECRET=<oauth client secret>
-   ```
-4. `npm start`
+3. Rename `env-sample` to `.env`
+4. Add your *Client ID* and *Client Secret* to the `.env` file
+5. `npm start`
