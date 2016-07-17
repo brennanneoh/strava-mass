@@ -9,9 +9,18 @@ html
     script(src='/vendor/editablegrid/editablegrid_editors.js')
     script(src='/vendor/db.js/dist/db.min.js')
     script(src='/vendor/moment/moment.js')
+    script(src='/vendor/polyline/src/polyline.js')
     script(src='/public/js/script.js')
     link(rel='stylesheet' href='/vendor/skeleton/css/normalize.css')
     link(rel='stylesheet' href='/vendor/skeleton/css/skeleton.css')
   body
-    h1 Authenticated!
-    #tablecontent
+    #container
+      h2 Activities
+      .row
+      #activity-filter
+        form(class='filter-form')
+          label Days of the week
+          select
+            option(value='weekdays') Weekdays
+            option(value='weekends') Weekends
+      #tablecontent.row

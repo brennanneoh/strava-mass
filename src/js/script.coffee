@@ -23,52 +23,30 @@ _getEndpointUrl = (resourceUrl) ->
     script.src = baseUrl + resourceUrl + '?' + params.join('&')
     document.head.appendChild script
 
+_buildMetadata = (name, label, datatype, editable) ->
+  { name: name, label: label, datatype: datatype, editable: editable }
+
 loadData = (jsonpData) ->
-  activitiesData = jsonpData
-
-  requestDB = indexedDB.open(dbName)
-
-  requestDB.onerror = (event) ->
-    console.log 'Database error: ' + event.target.errorCode
-
-  requestDB.onupgradeneeded = (event) ->
-    db = event.target.result
-    objStore = db.createObjectStore('activities', {keyPath: 'id'})
-    objStore.transaction.oncomplete = (event) ->
-      activitiesObjectStore = db.transaction('activities', 'readwrite').objectStore('activities')
-      for i of activitiesData
-        activitiesObjectStore.add activitiesData[i]
+  for i of jsonpData
+    server.activities.add activitiesData[i]
 
 indexDB.then (s) ->
   server = s
   server.activities.query().all().execute().then (activities) ->
     data = _.map activities, (activity) ->
-      activity.start_date_local = moment(activity.start_date_local).format('MMM Do YYYY')
+      activity.start_time_local = moment(activity.start_date_local).format 'h:mm:ss a'
+      activity.start_date_local = moment(activity.start_date_local).format 'MMM Do YYYY'
       {
-        id: activity.id
-        values: _.pick activity, ['name', 'start_date_local', 'commute']
+        id: activity.EditableGrid
+        values: _.pick activity, ['name', 'start_date_local', 'start_time_local', 'commute']
       }
-    editableGrid = new EditableGrid('activitiesJsData', {})
+    editableGrid = new EditableGrid 'activitiesJsData', {}
     metadata =
       [
-        {
-          name: 'name'
-          label: 'Name'
-          datatype: 'string'
-          editable: false
-        }
-        {
-          name: 'start_date_local'
-          label: 'Date'
-          datatype: 'string'
-          editable: false
-        }
-        {
-          name: 'commute'
-          label: 'Commute'
-          datatype: 'string'
-          editable: false
-        }
+        { name: 'name', label: 'Name', datatype: 'string', editable: true }
+        { name: 'start_date_local', label: 'Date', datatype: 'string', editable: false }
+        { name: 'start_time_local', label: 'Time', datatype: 'string', editable: false }
+        { name: 'commute', label: 'Commute', datatype: 'boolean', editable: true }
       ]
     editableGrid.load
       metadata: metadata
