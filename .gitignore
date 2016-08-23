@@ -18,3 +18,5 @@ jspm_packages
 .env
 bower_components
 public
+
+.gtm/

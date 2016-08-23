@@ -1,46 +1,41 @@
+baseUrl        = '//www.strava.com/api/v3'
+resourceUrl    = '/activities'
 activitiesData = undefined
-indexDB = db.open(
+
+indexDB = db.open
   server: 'strava_mass'
   schema:
     activities:
       key:
         keyPath: 'id'
-)
-baseUrl = '//www.strava.com/api'
-resourceUrl = '/activities'
+
 
 _getEndpointUrl = (resourceUrl) ->
-  accessToken = Cookies.get('access_token')
+  accessToken = Cookies.get 'access_token'
   params = []
-  script = document.createElement('script')
+  script = document.createElement 'script'
 
   if !_.isEmpty(accessToken)
     paramsData =
       access_token: accessToken
-      callback: 'loadApiData'
+      callback: 'loadFromStavaData'
     for data of paramsData
-      params.push("#{data}=#{paramsData[data]}")
-    script.src = baseUrl + resourceUrl + '?' + params.join('&')
+      params.push "#{data}=#{paramsData[data]}"
+    script.src = baseUrl + resourceUrl + '?' + params.join '&'
     document.head.appendChild script
 
 _buildMetadata = (name, label, datatype, editable) ->
   { name: name, label: label, datatype: datatype, editable: editable }
 
-loadData = (jsonpData) ->
-  for i of jsonpData
-    server.activities.add activitiesData[i]
+loadFromStravaData = (activitiesData) ->
+  indexDB.then (server) ->
+    activitesData.forEach (acvtivity) ->
+      server.activities.add activity
 
-indexDB.then (s) ->
-  server = s
-  server.activities.query().all().execute().then (activities) ->
-    data = _.map activities, (activity) ->
-      activity.start_time_local = moment(activity.start_date_local).format 'h:mm:ss a'
-      activity.start_date_local = moment(activity.start_date_local).format 'MMM Do YYYY'
-      {
-        id: activity.EditableGrid
-        values: _.pick activity, ['name', 'start_date_local', 'start_time_local', 'commute']
-      }
+_loadGrid = (data) ->
     editableGrid = new EditableGrid 'activitiesJsData', {}
+    editableGrid.modelChanged = (rowIndex, columnIndex, oldValue, newValue, row) ->
+      console.log [rowIndex, columnIndex, oldValue, newValue, row]
     metadata =
       [
         { name: 'name', label: 'Name', datatype: 'string', editable: true }
@@ -52,3 +47,16 @@ indexDB.then (s) ->
       metadata: metadata
       data: data
     editableGrid.renderGrid 'tablecontent', 'testgrid'
+    window.editableGrid = editableGrid
+
+indexDB.then (server) ->
+  server.activities.query().all().execute().then (activities) ->
+    data = _.map activities, (activity) ->
+      activity.start_time_local = moment(activity.start_date_local).format 'h:mm:ss a'
+      activity.start_date_local = moment(activity.start_date_local).format 'MMM Do YYYY'
+      {
+        id: activity.EditableGrid
+        values: _.pick activity, ['name', 'start_date_local', 'start_time_local', 'commute']
+      }
+
+    _loadGrid data
