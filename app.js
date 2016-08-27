@@ -6,11 +6,6 @@ const credentials = {
 };
 const express      = require('express');
 const cookieParser = require('cookie-parser');
-const coffee       = require('coffee-script');
-const path         = require('path');
-const fs           = require('fs');
-const mkdirp       = require('mkdirp');
-const url          = require('url');
 const oauth2       = require('simple-oauth2')(credentials);
 const authUri      = oauth2.authCode.authorizeURL({redirect_uri: 'http://localhost:3000/callback'});
 
@@ -29,12 +24,18 @@ app.get('/callback', function(req, res) {
   oauth2.authCode.getToken(tokenConfig).then(function(result) {
     const token = oauth2.accessToken.create(result);
     res.cookie('access_token', token.token.access_token);
-    res.redirect('http://localhost:3000/activities');
+    res.redirect('/activities');
   });
 }
 );
 
-app.get('/activities', (req, res) => res.render('activities'));
+app.get('/activities', function (req, res) {
+  if (req.cookies.access_token) {
+    res.render('activities')
+  } else {
+    res.redirect('/');
+  }
+});
 
 if (!module.parent) {
   app.listen(3000, () => console.log('Listening on port 3000'));
