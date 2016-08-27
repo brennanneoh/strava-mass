@@ -17,6 +17,5 @@ jspm_packages
 .node_repl_history
 .env
 bower_components
-public
 
 .gtm/

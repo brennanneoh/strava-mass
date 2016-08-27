@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "coffee app.coffee"
+    "start": "node app.js"
   },
   "author": "Brennan Neoh",
   "license": "ISC",
@@ -25,6 +25,7 @@
     "jasmine": "^2.4.1",
     "jasmine-spec-reporter": "^2.5.0",
     "nock": "^8.0.0",
+    "supertest": "^2.0.0",
     "wdio-jasmine-framework": "^0.2.3",
     "wdio-spec-reporter": "0.0.2",
     "webdriverio": "^4.2.1"
