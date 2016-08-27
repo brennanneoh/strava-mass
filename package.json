@@ -23,6 +23,7 @@
     "grunt-express-server": "^0.5.3",
     "grunt-webdriver": "^2.0.1",
     "jasmine": "^2.4.1",
+    "jasmine-console-reporter": "^1.2.7",
     "jasmine-spec-reporter": "^2.5.0",
     "nock": "^8.0.0",
     "supertest": "^2.0.0",
