@@ -1,5 +1,11 @@
-const baseUrl = '//www.strava.com/api/v3';
-const resourceUrl = '/activities';
+const _            = require('lodash');
+const Cookie       = require('js-cookie/src/js.cookie.js');
+const db           = require('db.js/src/db.js');
+const moment       = require('moment');
+
+const baseUrl       = '//www.strava.com/api/v3';
+const activitiesUrl = '/activities';
+
 const gridMetadata = [
   { name: 'name', label: 'Name', datatype: 'string', editable: true },
   { name: 'start_date_local', label: 'Date', datatype: 'string', editable: false },
@@ -7,6 +13,7 @@ const gridMetadata = [
   { name: 'commute', label: 'Commute', datatype: 'boolean', editable: true }
 ];
 
+let activitiesData = [];
 let indexDB = db.open({
   server: 'strava_mass',
   schema: {
@@ -17,30 +24,22 @@ let indexDB = db.open({
     }
   }
 });
-let activitiesData = null;
-_getEndpointUrl = function(resourceUrl) {
+
+
+_buildActivitiesUrl = function() {
   const accessToken = Cookies.get('access_token');
-  let script = document.createElement('script');
   if (!_.isEmpty(accessToken)) {
-    const paramsData = {
-      access_token: accessToken,
-      callback: 'stravaActivitiesCallback'
-    };
+    const paramsData = { access_token: accessToken, callback: 'stravaActivitiesCallback' };
     let params = [];
-    let data = '';
-    for (data in paramsData) {
-      params.push(data + "=" + paramsData[data]);
-    }
-    script.src = baseUrl + resourceUrl + '?' + params.join('&');
-    document.head.appendChild(script);
+    for (datum in paramsData) { params.push(datum + "=" + paramsData[datum]); }
+    return baseUrl + activitiesUrl + '?' + params.join('&');
   }
+  return undefined;
 };
 
 const stravaActivitesCallback = function(activitiesData) {
   indexDB.then(function(server) {
-    activitesData.forEach(function(acvtivity) {
-      server.activities.add(activity);
-    });
+    activitesData.forEach((acvtivity) => server.activities.add(activity));
   });
 };
 

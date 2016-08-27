@@ -19,7 +19,7 @@ app.use('/vendor', express.static('bower_components'));
 
 app.get('/', (req, res) => res.render('index', {authUri}));
 
-app.get('/callback', function(req, res) {
+app.get('/callback', function (req, res) {
   const tokenConfig = { code: req.query.code, redirect_uri: 'http://localhost:3000/callback' };
   oauth2.authCode.getToken(tokenConfig).then(function(result) {
     const token = oauth2.accessToken.create(result);
@@ -31,10 +31,14 @@ app.get('/callback', function(req, res) {
 
 app.get('/activities', function (req, res) {
   if (req.cookies.access_token) {
-    res.render('activities')
+    res.render('activities');
   } else {
     res.redirect('/');
   }
+});
+
+app.get('/jasmine', function(req, res) {
+  res.render('jasmine');
 });
 
 if (!module.parent) {

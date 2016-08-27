@@ -1,16 +1,6 @@
 html
   head
     title Activities
-    script(src='/vendor/js-cookie/src/js.cookie.js')
-    script(src='/vendor/lodash/dist/lodash.js')
-    script(src='/vendor/editablegrid/editablegrid.js')
-    script(src='/vendor/editablegrid/editablegrid_utils.js')
-    script(src='/vendor/editablegrid/editablegrid_renderers.js')
-    script(src='/vendor/editablegrid/editablegrid_editors.js')
-    script(src='/vendor/db.js/dist/db.min.js')
-    script(src='/vendor/moment/moment.js')
-    script(src='/vendor/polyline/src/polyline.js')
-    script(src='/public/js/script.js')
     link(rel='stylesheet' href='/vendor/skeleton/css/normalize.css')
     link(rel='stylesheet' href='/vendor/skeleton/css/skeleton.css')
   body
@@ -24,3 +14,8 @@ html
             option(value='weekdays') Weekdays
             option(value='weekends') Weekends
       #tablecontent.row
+    script(src='/vendor/editablegrid/editablegrid.js')
+    script(src='/vendor/editablegrid/editablegrid_utils.js')
+    script(src='/vendor/editablegrid/editablegrid_renderers.js')
+    script(src='/vendor/editablegrid/editablegrid_editors.js')
+    script(src='/public/js/bundle.js')

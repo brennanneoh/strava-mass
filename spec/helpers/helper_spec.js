@@ -1,4 +1,3 @@
-const jasmineConsoleReporter = require('jasmine-console-reporter');
-const reporter = new jasmineConsoleReporter();
+const JasmineConsoleReporter = require('jasmine-console-reporter');
 
-jasmine.getEnv().addReporter(reporter);
+jasmine.getEnv().addReporter(new JasmineConsoleReporter());
