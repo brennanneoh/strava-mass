@@ -13,9 +13,9 @@ const gridMetadata = [
   { name: 'commute', label: 'Commute', datatype: 'boolean', editable: true }
 ];
 
-let activitiesData = [];
-let indexDB = db.open({
-  server: 'strava_mass',
+const dbName = PRODUCTION ? 'strava_mass' : 'strava_mass_test';
+const indexDB = db.open({
+  server: dbName,
   schema: {
     activities: {
       key: {
@@ -25,7 +25,6 @@ let indexDB = db.open({
   }
 });
 
-
 _buildActivitiesUrl = function() {
   const accessToken = Cookie.get('access_token');
   if (!_.isEmpty(accessToken)) {
@@ -34,20 +33,21 @@ _buildActivitiesUrl = function() {
     for (datum in paramsData) { params.push(datum + "=" + paramsData[datum]); }
     return baseUrl + activitiesUrl + '?' + params.join('&');
   }
-  return undefined;
+  return null;
+};
+
+const stravaActivitiesCallback = function(activitiesData) {
+  indexDB.then(function(server) {
+    activitiesData.forEach((activity) => server.activities.add(activity));
+  });
 };
 
 exports.baseUrl = baseUrl;
 exports.activitiesUrl = activitiesUrl;
 exports.gridMetadata = gridMetadata;
-exports.activitiesData = activitiesData;
+exports.indexDB = indexDB;
 exports._buildActivitiesUrl = _buildActivitiesUrl;
-
-const stravaActivitesCallback = function(activitiesData) {
-  indexDB.then(function(server) {
-    activitesData.forEach((acvtivity) => server.activities.add(activity));
-  });
-};
+exports.stravaActivitiesCallback = stravaActivitiesCallback;
 
 const _loadGrid = function(data) {
   let editableGrid = new EditableGrid('activitiesJsData', {});
