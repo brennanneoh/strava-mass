@@ -11,6 +11,9 @@ module.exports = {
     modulesDirectories: ['node_modules', 'bower_components']
   },
   plugins: [
+    new webpack.DefinePlugin({
+      PRODUCTION: JSON.stringify(true)
+    }),
     new webpack.ResolverPlugin( new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"]) ),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
   ]
