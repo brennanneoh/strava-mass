@@ -17,12 +17,14 @@
   ],
   "dependencies": {
     "editablegrid": "webismymind/editablegrid",
+    "skeleton": "^2.0.4"
+  },
+  "devDependencies": {
     "knockout": "^3.4.0",
     "lodash": "^4.13.1",
     "js-cookie": "^2.1.2",
     "db.js": "^0.15.0",
     "moment": "^2.14.1",
-    "polyline": "^0.2.0",
-    "skeleton": "^2.0.4"
+    "jasmine-core": "jasmine#^2.4.1"
   }
 }

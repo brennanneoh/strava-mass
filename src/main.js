@@ -25,6 +25,7 @@ let indexDB = db.open({
   }
 });
 
+exports.gridMetadata = gridMetadata;
 
 _buildActivitiesUrl = function() {
   const accessToken = Cookies.get('access_token');

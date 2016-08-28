@@ -37,9 +37,7 @@ app.get('/activities', function (req, res) {
   }
 });
 
-app.get('/jasmine', function(req, res) {
-  res.render('jasmine');
-});
+app.get('/jasmine', (req, res) => res.render('jasmine'));
 
 if (!module.parent) {
   app.listen(3000, () => console.log('Listening on port 3000'));
