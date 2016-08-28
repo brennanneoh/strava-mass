@@ -25,13 +25,9 @@ let indexDB = db.open({
   }
 });
 
-exports.baseUrl = baseUrl;
-exports.activitiesUrl = activitiesUrl;
-exports.gridMetadata = gridMetadata;
-exports.activitiesData = activitiesData;
 
 _buildActivitiesUrl = function() {
-  const accessToken = Cookies.get('access_token');
+  const accessToken = Cookie.get('access_token');
   if (!_.isEmpty(accessToken)) {
     const paramsData = { access_token: accessToken, callback: 'stravaActivitiesCallback' };
     let params = [];
@@ -40,6 +36,12 @@ _buildActivitiesUrl = function() {
   }
   return undefined;
 };
+
+exports.baseUrl = baseUrl;
+exports.activitiesUrl = activitiesUrl;
+exports.gridMetadata = gridMetadata;
+exports.activitiesData = activitiesData;
+exports._buildActivitiesUrl = _buildActivitiesUrl;
 
 const stravaActivitesCallback = function(activitiesData) {
   indexDB.then(function(server) {

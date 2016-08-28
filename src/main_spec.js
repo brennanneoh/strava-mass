@@ -1,5 +1,6 @@
-const _    = require('lodash');
-const main = require('./main.js');
+const _      = require('lodash');
+const Cookie = require('js-cookie/src/js.cookie.js');
+const main   = require('./main.js');
 
 describe('main', function() {
   describe('baseUrl', function() {
@@ -26,6 +27,18 @@ describe('main', function() {
   describe('activitiesData', function() {
     it('should be set to an empty array', function() {
       expect(main.activitiesData).toEqual([]);
+    });
+  });
+
+  describe('_buildActivitiesUrl', function() {
+    describe('whem there is a cookie with access_token', function() {
+      beforeEach(function() {
+        spyOn(Cookie, 'get').and.returnValue('efg456');
+      });
+
+      it('should build the activities URL', function() {
+        expect(main._buildActivitiesUrl()).toEqual('//www.strava.com/api/v3/activities?access_token=efg456&callback=stravaActivitiesCallback');
+      });
     });
   });
 });
