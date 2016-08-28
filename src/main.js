@@ -42,27 +42,21 @@ const stravaActivitiesCallback = function(activitiesData) {
   });
 };
 
-exports.baseUrl = baseUrl;
-exports.activitiesUrl = activitiesUrl;
-exports.gridMetadata = gridMetadata;
-exports.indexDB = indexDB;
-exports._buildActivitiesUrl = _buildActivitiesUrl;
-exports.stravaActivitiesCallback = stravaActivitiesCallback;
 
 const _loadGrid = function(data) {
-  let editableGrid = new EditableGrid('activitiesJsData', {});
+  let activitiesGrid = new EditableGrid('activitiesJsData', {});
 
-  editableGrid.modelChanged = function(rowIndex, columnIndex, oldValue, newValue, row) {
+  activitiesGrid.modelChanged = function(rowIndex, columnIndex, oldValue, newValue, row) {
     console.log([rowIndex, columnIndex, oldValue, newValue, row]);
   };
 
-  editableGrid.load({
+  activitiesGrid.load({
     metadata: gridMetadata,
     data: data
   });
 
-  editableGrid.renderGrid('tablecontent', 'testgrid');
-  window.editableGrid = editableGrid;
+  activitiesGrid.renderGrid('tablecontent', 'testgrid');
+  window.activitiesGrid = activitiesGrid;
 };
 
 indexDB.then(function(server) {
@@ -78,3 +72,11 @@ indexDB.then(function(server) {
     _loadGrid(data);
   });
 });
+
+exports.baseUrl = baseUrl;
+exports.activitiesUrl = activitiesUrl;
+exports.gridMetadata = gridMetadata;
+exports.indexDB = indexDB;
+exports._buildActivitiesUrl = _buildActivitiesUrl;
+exports.stravaActivitiesCallback = stravaActivitiesCallback;
+exports._loadGrid = _loadGrid;

@@ -71,9 +71,7 @@ describe('main', function() {
 
     beforeEach(function() {
       main.indexDB.then(function(server) {
-        server.activities.clear().then(function() {
-          console.log('`activities` store cleared');
-        });
+        server.activities.clear().then(() => console.log('`activities` store cleared'));
       });
       main.stravaActivitiesCallback(activitiesData);
     });
@@ -85,6 +83,42 @@ describe('main', function() {
           done();
         });
       });
+    });
+  });
+
+  describe('_loadGrid', function() {
+    const gridData = [
+      { id: 1, values: ['Cycling',  '2016-08-28', '07:00', true ] },
+      { id: 2, values: ['Walking',  '2016-08-28', '16:00', true ] },
+      { id: 3, values: ['Swimming', '2016-08-28', '07:00', false] }
+    ];
+    const activitiesGrid = jasmine.createSpyObj('editableGrid', ['load', 'renderGrid']);
+    beforeEach(function() {
+      spyOn(window, 'EditableGrid').and.returnValue(activitiesGrid);
+      main._loadGrid(gridData);
+    });
+
+    it('should call EditableGrid with options', function() {
+      expect(window.EditableGrid).toHaveBeenCalledWith('activitiesJsData', {});
+    });
+
+    it('should set `activitiesGrid.modelChanged` with a callback function', function() {
+      expect(activitiesGrid.modelChanged).toEqual(jasmine.any(Function));
+    });
+
+    it('should call `activitiesGrid.load` with metadata and data', function() {
+      expect(activitiesGrid.load).toHaveBeenCalledWith({
+        metadata: main.gridMetadata,
+        data: gridData
+      });
+    });
+
+    it('should call `activitiesGrid.renderGrid` with `tablecontent` and `testgrid`', function() {
+      expect(activitiesGrid.renderGrid).toHaveBeenCalledWith('tablecontent', 'testgrid');
+    });
+
+    it('should set `activitiesGrid` globally', function() {
+      expect(window.activitiesGrid).toEqual(activitiesGrid);
     });
   });
 });
